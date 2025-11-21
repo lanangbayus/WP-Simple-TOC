@@ -18,6 +18,9 @@ class WP_Simple_TOC {
     const META_META_TITLE  = '_simple_toc_meta_title';
 
     public function __construct() {
+        // Tambah ID ke H2/H3 di konten sebelum TOC dibangun
+        add_filter( 'the_content', [ $this, 'add_ids_to_headings' ], 15 );
+
         // Inject TOC ke konten
         add_filter( 'the_content', [ $this, 'inject_toc_into_content' ], 20 );
 
@@ -65,6 +68,46 @@ class WP_Simple_TOC {
             '2.0.1'
         );
     }
+
+        /**
+     * Tambah ID ke semua <h2>/<h3> di konten post jika belum punya.
+     * ID-nya dibikin dari text heading (sanitize_title),
+     * supaya match dengan yang dipakai TOC.
+     */
+    public function add_ids_to_headings( $content ) {
+        if ( ! is_singular( 'post' ) ) {
+            return $content;
+        }
+
+        $pattern = '/<h([2-3])([^>]*)>(.*?)<\/h[2-3]>/i';
+
+        return preg_replace_callback( $pattern, function( $match ) {
+            $level   = intval( $match[1] );
+            $attribs = $match[2]; // termasuk spasi depan, misal: ' class="wp-block-heading"'
+            $inner   = $match[3];
+
+            // Kalau sudah ada id, biarkan saja
+            if ( preg_match( '/id=["\']([^"\']+)["\']/', $attribs ) ) {
+                return $match[0];
+            }
+
+            // Generate ID dari text heading (harus sama dengan logic di extract_headings)
+            $text = wp_strip_all_tags( $inner );
+            $id   = sanitize_title( $text );
+
+            // Tambah id ke atribut yang sudah ada
+            $new_attribs = $attribs . ' id="' . esc_attr( $id ) . '"';
+
+            return sprintf(
+                '<h%d%s>%s</h%d>',
+                $level,
+                $new_attribs,
+                $inner,
+                $level
+            );
+        }, $content );
+    }
+
 
     /**
      * Parse H2/H3 dari konten.
