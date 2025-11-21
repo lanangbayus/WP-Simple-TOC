@@ -1,0 +1,39 @@
+.simple-toc {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 0 0 20px;
+    background-color: #fafafa;
+    font-size: 14px;
+}
+
+.simple-toc__title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.simple-toc__list {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.simple-toc__item {
+    margin: 3px 0;
+}
+
+.simple-toc__item a {
+    text-decoration: none;
+    color: #0073aa;
+}
+
+.simple-toc__item a:hover {
+    text-decoration: underline;
+}
+
+.simple-toc__item--child {
+    padding-left: 12px;
+    font-size: 13px;
+}
