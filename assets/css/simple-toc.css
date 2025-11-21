@@ -1,17 +1,21 @@
-.simple-toc {
-    border: 1px solid #e0e0e0;
+.simple-toc-box {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid #ddd;
     border-radius: 6px;
-    padding: 12px 14px;
-    margin: 0 0 20px;
-    background-color: #fafafa;
-    font-size: 14px;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+}
+
+.simple-toc {
+    margin: 0;
+    padding: 0;
 }
 
 .simple-toc__title {
     font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
 }
 
 .simple-toc__list {
@@ -21,19 +25,55 @@
 }
 
 .simple-toc__item {
-    margin: 3px 0;
+    margin: 0.2rem 0;
 }
 
-.simple-toc__item a {
+.simple-toc__item--child {
+    padding-left: 1rem;
+    font-size: 0.9em;
+}
+
+.simple-toc__list a {
     text-decoration: none;
     color: #0073aa;
 }
 
-.simple-toc__item a:hover {
+.simple-toc__list a:hover {
     text-decoration: underline;
 }
 
-.simple-toc__item--child {
-    padding-left: 12px;
-    font-size: 13px;
+/* Floating (desktop) - pakai position: fixed biar "nempel" saat scroll */
+.simple-toc-box--float-right {
+    position: fixed;
+    top: 120px;
+    right: 24px;
+    width: 260px;
+    z-index: 999;
+}
+
+.simple-toc-box--float-left {
+    position: fixed;
+    top: 120px;
+    left: 24px;
+    width: 260px;
+    z-index: 999;
+}
+
+/* Preview di meta box (biar tidak kepanasan) */
+.simple-toc--preview .simple-toc-box,
+.simple-toc--preview .simple-toc {
+    position: static !important;
+}
+
+/* Responsive: di layar kecil, floating di-reset jadi box biasa di atas konten */
+@media (max-width: 1024px) {
+    .simple-toc-box--float-right,
+    .simple-toc-box--float-left {
+        position: static;
+        width: 100%;
+        right: auto;
+        left: auto;
+        top: auto;
+        margin-bottom: 1.5rem;
+    }
 }
